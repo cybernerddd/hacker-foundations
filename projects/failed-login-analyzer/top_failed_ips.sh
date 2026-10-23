@@ -15,7 +15,7 @@ fi
 
 ranked_ips="ranked_ips.txt"
 
-if {
+{
     echo 
     echo " FAILED IP ANALYSIS"
     echo " ==================="
@@ -26,10 +26,12 @@ if {
         uniq -c |
         sort -nr
 
-} > "$ranked_ips"; then  #display and save to file
+} | tee "$ranked_ips"
+
+if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
     echo ""
     echo "Report successfully saved to '$ranked_ips'."
 else
-    echo "Error: Report generation failed!"
+    echo "Warning: check whether the report was generated correctly." >&2
     exit 1
 fi
